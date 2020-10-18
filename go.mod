@@ -1,4 +1,4 @@
-module util.go
+module github.com/wpad1991/util
 
 go 1.15
 
