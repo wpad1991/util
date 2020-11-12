@@ -13,7 +13,7 @@ var logger *zap.Logger
 var cfg zap.Config
 
 func init() {
-	LogPath = "/tmp/atm/log/"
+	LogPath = "/tmp/decol/log/"
 	if _, err := os.Stat(LogPath); os.IsNotExist(err) {
 		os.MkdirAll(LogPath, os.ModePerm)
 	}

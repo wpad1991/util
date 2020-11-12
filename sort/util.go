@@ -19,8 +19,8 @@ func CheckLinearArray(sortedarray []int) []int {
 		if diff == 0 {
 
 		} else if diff != 1 {
-			for i := 1; i < diff; i++ {
-				empty = append(empty, sortedarray[i]+i)
+			for j := 1; j < diff; j++ {
+				empty = append(empty, sortedarray[i]+j)
 			}
 		}
 	}

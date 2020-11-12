@@ -11,6 +11,16 @@ Test 3 : 중복되는 수가 포함되어 있는 숫자
 Test 4 : -값을 포함하는 숫자
 */
 
+func TestCheckLinearArray(t *testing.T) {
+	arr := []int{1, 2, 4, 6, 9, 100}
+
+	arr2 := CheckLinearArray(arr)
+
+	for _, val := range arr2 {
+		println(val)
+	}
+}
+
 func TestQuickSortInt(t *testing.T) {
 	qwe1 := []int{2, 5, 23, 1, 52}
 	qwe2 := []int{2, 5, 23, 1, 52, 0, 12, 34, 53, 55, 66, 32, 1, 5}
