@@ -11,9 +11,14 @@ import (
 var LogPath string
 var logger *zap.Logger
 var cfg zap.Config
+var logmap map[string]*zap.Logger
 
 func init() {
-	LogPath = "/tmp/decol/log/"
+	logmap = make(map[string]*zap.Logger)
+}
+
+func makelogger(folder string) *zap.Logger {
+	LogPath = "/tmp/decol/log/" + folder + "/"
 	if _, err := os.Stat(LogPath); os.IsNotExist(err) {
 		os.MkdirAll(LogPath, os.ModePerm)
 	}
@@ -21,7 +26,7 @@ func init() {
 	rawJSON := []byte(`{
 		"level": "debug",
 		"encoding": "json",
-		"outputPaths": ["stdout", "/tmp/atm/logs"],
+		"outputPaths": ["stdout", "/tmp/decol/logs"],
 		"errorOutputPaths": ["stderr"],
 		"encoderConfig": {
 		  "messageKey": "message",
@@ -46,19 +51,26 @@ func init() {
 		panic("logger initailize logger is nil")
 	}
 
-}
-
-func GetLogger() *zap.Logger {
 	return logger
 }
 
-func LogWrite(log interface{}) {
+func GetLogger(folder string) *zap.Logger {
+	if value, ok := logmap[folder]; ok {
+		return value
+	}
+	return nil
+}
+
+func LogWrite(folder string, log interface{}) {
+	if _, ok := logmap[folder]; !ok {
+		logmap[folder] = makelogger(folder)
+	}
 
 	switch log.(type) {
 	case error:
-		logger.Error(log.(error).Error(), zap.Time("datatime", time.Now()))
+		logmap[folder].Error(log.(error).Error(), zap.Time("datatime", time.Now()))
 	case string:
-		logger.Info(log.(string), zap.Time("datatime", time.Now()))
+		logmap[folder].Info(log.(string), zap.Time("datatime", time.Now()))
 	default:
 		panic("LogWrite invalid log")
 	}
