@@ -17,6 +17,12 @@ func init() {
 	logmap = make(map[string]*zap.Logger)
 }
 
+func SyncLogger() {
+	for _, val := range logmap {
+		val.Sync()
+	}
+}
+
 func makelogger(folder string) *zap.Logger {
 	LogPath = "/tmp/decol/log/" + folder + "/"
 	if _, err := os.Stat(LogPath); os.IsNotExist(err) {
