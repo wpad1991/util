@@ -68,9 +68,9 @@ func LogWrite(folder string, log interface{}) {
 
 	switch log.(type) {
 	case error:
-		logmap[folder].Error(log.(error).Error(), zap.Time("datatime", time.Now()))
+		logmap[folder].Error(log.(error).Error(), zap.String("datatime", time.Now().Format("2006-01-02 15:04:05")))
 	case string:
-		logmap[folder].Info(log.(string), zap.Time("datatime", time.Now()))
+		logmap[folder].Info(log.(string), zap.String("datatime", time.Now().Format("2006-01-02 15:04:05")))
 	default:
 		panic("LogWrite invalid log")
 	}
